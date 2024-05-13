@@ -1,0 +1,129 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.gms.google-services"
+    id "com.google.firebase.crashlytics"
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('app/key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+android {
+    namespace "com.ar.draw.sketch.paint.trace"
+    compileSdk 34
+    ndkVersion flutter.ndkVersion
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    defaultConfig {
+        applicationId "com.ar.draw.sketch.trace.paint"
+        minSdkVersion 24
+        targetSdkVersion 34
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+        multiDexEnabled true
+        ndk {
+            abiFilters  'arm64-v8a', 'armeabi-v7a','x86'
+        }
+    }
+
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
+    buildTypes {
+        release {
+//            minifyEnabled false
+//            shrinkResources false
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
+
+    flavorDimensions "default"
+    productFlavors {
+        Dev {
+            applicationId "com.ar.draw.sketch.paint.trace"
+            resValue "string", "app_name", "AR Drawing-DEV"
+            resValue "string", "ads_id", "ca-app-pub-3940256099942544~3347511713"
+        }
+        Prod {
+            applicationId "com.ar.draw.sketch.paint.trace"
+            resValue "string", "app_name", "AR Drawing"
+            resValue "string", "ads_id", "ca-app-pub-5294836995166944~4503252522"
+        }
+    }
+}
+
+flutter {
+    source '../..'
+}
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+dependencies {
+    implementation "androidx.multidex:multidex:2.0.1"
+
+    implementation 'androidx.window:window:1.2.0'
+    implementation 'androidx.window:window-java:1.2.0'
+
+    implementation 'com.google.android.play:review:2.0.1'
+
+    implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    implementation(project(":opencv"))
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.facebook.android:facebook-android-sdk:latest.release'
+
+    implementation 'com.applovin:applovin-sdk:12.4.0'
+    implementation 'com.applovin.mediation:google-adapter:22.6.0.0'
+    implementation 'com.applovin.mediation:google-ad-manager-adapter:22.6.0.0'
+}

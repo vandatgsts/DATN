@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "412390473888",
+    "project_id": "ar-draw-android",
+    "storage_bucket": "ar-draw-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412390473888:android:d0c8796e0cafdf36c389c5",
+        "android_client_info": {
+          "package_name": "com.ar.draw.sketch.paint.trace"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeO-r2eWuyv44eq1EPp4gG9aigQxf6T08"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

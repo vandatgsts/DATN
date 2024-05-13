@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ad_background_color">#7D73C3</color>
+    <color name="ad_button_color">#F1EFFF</color>
+    <color name="ad_text_color">#121212</color>
+    <color name="gnt_ad_green">#4CAF50</color>
+    <color name="color_ad">#7431E2</color>
+</resources>
