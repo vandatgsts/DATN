@@ -40,7 +40,7 @@ class IntroScreen extends BaseScreen<IntroController> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
+q                          Container(
                             alignment: Alignment.centerRight,
                             margin: EdgeInsets.only(
                               right: 16.sp,
@@ -85,7 +85,7 @@ class IntroScreen extends BaseScreen<IntroController> {
                                     ),
                                   ),
                                 ),
-                                Gap(24.0.sp),
+                                Gap(34.0.sp),
                                 Text(
                                   "${e['text_content1']} ${e['text_content2']}",
                                   textAlign: TextAlign.center,

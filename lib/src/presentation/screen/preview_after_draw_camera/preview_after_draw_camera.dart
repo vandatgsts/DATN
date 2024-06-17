@@ -82,7 +82,6 @@ class _PreviewAfterDrawCameraState extends State<PreviewAfterDrawCamera> {
   }
 
   void _saveToGallery() async {
-    AppFirebaseAnalytics.instance.logEvent(name: "preview_save");
 
     List<Permission> permissions = [];
     AndroidDeviceInfo androidInfo = await DeviceInfoPlugin().androidInfo;
@@ -130,7 +129,6 @@ class _PreviewAfterDrawCameraState extends State<PreviewAfterDrawCamera> {
   }
 
   void _share() async {
-    AppFirebaseAnalytics.instance.logEvent(name: "preview_share");
 
     AppLog.info(widget.xFile.path);
     ShareResult result = await Share.shareXFiles([widget.xFile]);

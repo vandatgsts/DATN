@@ -31,7 +31,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace "com.ar.draw.sketch.paint.trace"
+    namespace "com.dat.datn"
     compileSdk 34
     ndkVersion flutter.ndkVersion
 
@@ -56,7 +56,7 @@ android {
         versionName flutterVersionName
         multiDexEnabled true
         ndk {
-            abiFilters  'arm64-v8a', 'armeabi-v7a','x86'
+            abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86'
         }
     }
 
@@ -84,13 +84,13 @@ android {
     flavorDimensions "default"
     productFlavors {
         Dev {
-            applicationId "com.ar.draw.sketch.paint.trace"
-            resValue "string", "app_name", "AR Drawing-DEV"
+            applicationId "com.dat.datn"
+            resValue "string", "app_name", "DrawnsDream-DEV"
             resValue "string", "ads_id", "ca-app-pub-3940256099942544~3347511713"
         }
         Prod {
-            applicationId "com.ar.draw.sketch.paint.trace"
-            resValue "string", "app_name", "AR Drawing"
+            applicationId "com.dat.datn"
+            resValue "string", "app_name", "DrawnsDream"
             resValue "string", "ads_id", "ca-app-pub-5294836995166944~4503252522"
         }
     }

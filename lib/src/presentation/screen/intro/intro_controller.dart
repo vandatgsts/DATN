@@ -1,17 +1,11 @@
 import 'package:ar_drawing/src/presentation/app/app_controller.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-
-
 
 import '../../../resource/string/app_string.dart';
 import '../../../utils/app_constant.dart';
 import '../../../utils/app_image.dart';
-import '../../../utils/firebase_analytics.dart';
-import '../../../utils/remote_config.dart';
 import '../../../utils/share_preference_utils.dart';
 import '../../base/base_controller.dart';
 import '../../router/app_router.dart';
@@ -56,25 +50,16 @@ class IntroController extends BaseController {
 
   @override
   void onInit() {
-
     super.onInit();
   }
 
-
-
   void onPressButtonNext() async {
-    AppFirebaseAnalytics.instance.logEvent(name: "intro_${currentIndex + 1}");
-
-    if (currentIndex.value < 4) {
+    if (currentIndex.value < 3) {
       carouselController.nextPage();
       setColor();
     } else {
       await PreferenceUtils.setBool(AppKeyPreference.keyFirstOpenApp, false);
-      Get.toNamed(AppRouter.permissionScreen)?.then(
-            (value) => Get.offAndToNamed(AppRouter.subscriptionScreen)?.then(
-              (value) => Get.offAndToNamed(AppRouter.homeScreen),
-        ),
-      );
+      Get.offAndToNamed(AppRouter.homeScreen);
     }
   }
 

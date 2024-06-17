@@ -36,10 +36,6 @@ class SplashController extends BaseController {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     version.value = packageInfo.version;
 
-    _appController.showBanner.value = RemoteConfig.getShowBanner();
-    _appController.showInter.value = RemoteConfig.getShowInter();
-
-
 
     await _processedData();
 
@@ -47,9 +43,7 @@ class SplashController extends BaseController {
 
   Future<void> _nextScreen() async {
     await Future.delayed(const Duration(milliseconds: 500));
-
-
-    Get.offAllNamed(AppRouter.homeScreen);
+    Get.offAllNamed(AppRouter.introScreen);
 
 
   }

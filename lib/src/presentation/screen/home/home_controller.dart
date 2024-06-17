@@ -11,10 +11,12 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../data/model/favorite_item.dart';
+import '../../../data/service/database_helper.dart';
 import '../../../domain/models/image_item.dart';
+import '../../../utils/app_constant.dart';
 import '../../../utils/app_image.dart';
 import '../../../utils/app_log.dart';
-import '../../../utils/firebase_analytics.dart';
 import '../../../utils/share_preference_utils.dart';
 import '../../app/app_controller.dart';
 import '../../base/base_controller.dart';
@@ -156,8 +158,6 @@ class HomeController extends BaseController {
   }
 
   void onPressPhoto() async {
-    AppFirebaseAnalytics.instance.logEvent(name: "home_photo");
-
     // showLoading();
 
     final XFile? image = await _picker.pickImage(
@@ -172,16 +172,24 @@ class HomeController extends BaseController {
       return;
     }
 
+    int cnt = PreferenceUtils.getInt(AppKeyPreference.keyCntUserAddImage) ?? 0;
+
+    String id = await DatabaseHelper.instance.insertFavoriteItem(
+      FavoriteItem(
+        id: "User_$cnt",
+        isFavorite: false,
+        image: byteData ?? Uint8List(0),
+      ),
+    );
     Get.toNamed(AppRouter.previewImage, arguments: {
       "byteData": byteData,
+      "id": id,
     });
 
     // hideLoading();
   }
 
   void onPressCamera() async {
-    AppFirebaseAnalytics.instance.logEvent(name: "home_camera");
-
     showLoading();
 
     var status = await Permission.camera.status;
@@ -210,17 +218,25 @@ class HomeController extends BaseController {
       hideLoading();
       return;
     }
+    int cnt = PreferenceUtils.getInt(AppKeyPreference.keyCntUserAddImage) ?? 0;
 
+    String id = await DatabaseHelper.instance.insertFavoriteItem(
+      FavoriteItem(
+        id: "User_$cnt",
+        isFavorite: false,
+        image: byteData ?? Uint8List(0),
+      ),
+    );
     Get.toNamed(AppRouter.previewImage, arguments: {
       "byteData": byteData,
+      "id": id,
     });
 
+    PreferenceUtils.setInt(AppKeyPreference.keyCntUserAddImage, cnt + 1);
     hideLoading();
   }
 
   void onPressLetStart() {
-    AppFirebaseAnalytics.instance.logEvent(name: "home_let_start");
-
     int indexList = Random().nextInt(listImage.length);
     var indices = <int>[]; // Danh sách để lưu trữ các chỉ số duy nhất
 
@@ -246,8 +262,6 @@ class HomeController extends BaseController {
   }
 
   void onPressImage() async {
-    AppFirebaseAnalytics.instance.logEvent(name: "home_image");
-
     if (context.mounted) {
       await showCameraDialog(
         context,
@@ -258,8 +272,6 @@ class HomeController extends BaseController {
   }
 
   void onPressItem(String image, int id) async {
-    AppFirebaseAnalytics.instance.logEvent(name: "home_image_item");
-
     if (Get.find<AppController>().isPremium.value) {
       Get.toNamed(
         AppRouter.previewImage,
@@ -288,13 +300,10 @@ class HomeController extends BaseController {
   }
 
   void onPressSetting() {
-    AppFirebaseAnalytics.instance.logEvent(name: "home_setting");
     Get.toNamed(AppRouter.settingScreen);
   }
 
   void onPressAlbum() {
-    AppFirebaseAnalytics.instance.logEvent(name: "home_album");
-
     Get.toNamed(AppRouter.albumScreen);
   }
 
@@ -348,8 +357,6 @@ class HomeController extends BaseController {
   }
 
   void onPressPremium() {
-    AppFirebaseAnalytics.instance.logEvent(name: "home_premium");
-
     Get.toNamed(AppRouter.subscriptionScreen);
   }
 
@@ -370,8 +377,6 @@ class HomeController extends BaseController {
   }
 
   void onPressLevelEasy() {
-    AppFirebaseAnalytics.instance.logEvent(name: "home_level_easy");
-
     Get.to(
       () => CategoryScreen(
         title: StringConstants.beginner.tr,
@@ -381,8 +386,6 @@ class HomeController extends BaseController {
   }
 
   void onPressLevelHard() {
-    AppFirebaseAnalytics.instance.logEvent(name: "home_level_hard");
-
     Get.to(
       () => CategoryScreen(
         title: StringConstants.advanced.tr,
@@ -392,7 +395,6 @@ class HomeController extends BaseController {
   }
 
   void onPressLevelMedium() {
-    AppFirebaseAnalytics.instance.logEvent(name: "home_level_medium");
     Get.to(
       () => CategoryScreen(
         title: StringConstants.intermediate.tr,
@@ -402,8 +404,6 @@ class HomeController extends BaseController {
   }
 
   void onPressHowToUse() {
-    AppFirebaseAnalytics.instance.logEvent(name: "home_how_to_use");
-
     Get.to(() => const HowToUseScreen());
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:ar_drawing/src/presentation/screen/home/widget/home_level.dart';
 import 'package:ar_drawing/src/utils/app_log.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -67,7 +68,7 @@ class HomeScreen extends BaseScreen<HomeController> {
                   //     child: const HomeSlider(),
                   //   );
                   // }
-                  if (index == 0) return Gap(20.sp);
+                  if (index == 0) return const HomeLevel();
                   if (index == 1) {
                     return Row(
                       children: [

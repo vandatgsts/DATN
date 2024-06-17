@@ -43,7 +43,7 @@ class DenyCameraScreen extends StatelessWidget {
           Gap(10.sp),
           AppTouchable(
             onPressed: () async {
-              AppFirebaseAnalytics.instance.logEvent(name: "open_app_setting");
+
               await openAppSettings();
               Get.back();
             },

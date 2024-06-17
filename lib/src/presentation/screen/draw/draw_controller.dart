@@ -82,7 +82,7 @@ class DrawController extends BaseController {
   }
 
   void onPressFlash() {
-    AppFirebaseAnalytics.instance.logEvent(name: "draw_flash");
+
 
     if (_cameraController == null) {
       showToast(StringConstants.pleaseWait.tr);
@@ -117,19 +117,18 @@ class DrawController extends BaseController {
   }
 
   void onPressTrace() {
-    AppFirebaseAnalytics.instance.logEvent(name: "draw_trace");
+
 
     _onPressTrace.call();
   }
 
   void onPressSketch() {
-    AppFirebaseAnalytics.instance.logEvent(name: "draw_sketch");
+
 
     isTrace.value = false;
   }
 
   void onPressTool() {
-    AppFirebaseAnalytics.instance.logEvent(name: "draw_tool");
 
     showBanner.value = true;
 
@@ -137,8 +136,6 @@ class DrawController extends BaseController {
   }
 
   void onPressTakeAPhoto() async {
-    AppFirebaseAnalytics.instance.logEvent(name: "draw_take_a_photo");
-
     showLoading();
     XFile? image = await _cameraController?.takePicture();
 
@@ -159,7 +156,6 @@ class DrawController extends BaseController {
   }
 
   void onPressStartRecord() async {
-    AppFirebaseAnalytics.instance.logEvent(name: "draw_start_record");
 
     int cntRecord =
         PreferenceUtils.getInt(AppKeyPreference.keyCountRecord) ?? 0;
@@ -221,14 +217,14 @@ class DrawController extends BaseController {
   }
 
   void onPressPhoto() {
-    AppFirebaseAnalytics.instance.logEvent(name: "draw_photo");
+
 
     showBanner.value = true;
     currentIndex.value = 2;
   }
 
   void onPressRecord() {
-    AppFirebaseAnalytics.instance.logEvent(name: "draw_record");
+
 
     showBanner.value = false;
 
@@ -236,7 +232,6 @@ class DrawController extends BaseController {
   }
 
   void onPressPrint() {
-    AppFirebaseAnalytics.instance.logEvent(name: "draw_print");
 
     try {
       if (_cameraController?.value.flashMode == FlashMode.torch) {
@@ -279,31 +274,21 @@ class DrawController extends BaseController {
   }
 
   void onPressFavorite() async {
-    AppFirebaseAnalytics.instance.logEvent(name: "draw_favorite");
+
 
     isFavorite.value = !isFavorite.value;
-    if (isFavorite.value) {
-      await DatabaseHelper.instance.insertOrUpdateFavoriteItem(
-        FavoriteItem(
-          id: imageId,
-          isFavorite: isFavorite.value,
-          image: originByteData.value,
-        ),
-      );
-    } else {
-      await DatabaseHelper.instance.deleteFavoriteItem(imageId);
-    }
+    await DatabaseHelper.instance.insertOrUpdateFavoriteItem(
+      FavoriteItem(
+        id: imageId,
+        isFavorite: isFavorite.value,
+        image: originByteData.value,
+      ),
+    );
 
-    if (!Get.isRegistered<AlbumController>()) {
-      Get.put(AlbumController());
-    }
-
-    Get.find<AlbumController>().listAlbum.value =
-        await DatabaseHelper.instance.fetchFavoriteItems();
   }
 
   void onPressHowToUse() {
-    AppFirebaseAnalytics.instance.logEvent(name: "draw_how_to_use");
+
 
     _cameraController?.setFlashMode(FlashMode.off);
     onFlash.value = false;

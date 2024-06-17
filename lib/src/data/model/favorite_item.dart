@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 class FavoriteItem {
   final String id;
-  final bool isFavorite;
+  bool isFavorite;
   final Uint8List image;
 
   FavoriteItem({

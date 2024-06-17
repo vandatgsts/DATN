@@ -100,7 +100,7 @@ class _HomeLineCategoryState extends State<HomeLineCategory>
             const Spacer(),
             AppTouchable(
               onPressed: () async {
-                Get.to(CategoryScreen(
+                Get.to(()=>CategoryScreen(
                   title: widget.data[0].name ?? '',
                   listData: widget.data,
                 ));

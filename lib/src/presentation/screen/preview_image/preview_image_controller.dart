@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:ar_drawing/src/data/service/database_helper.dart';
 import 'package:ar_drawing/src/presentation/screen/deny_permission_camera/deny_camera_screen.dart';
 import 'package:ar_drawing/src/utils/app_log.dart';
 import 'package:camera/camera.dart';
@@ -13,11 +12,8 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../../data/model/favorite_item.dart';
 import '../../../native_bridge/open_cv/opencv.dart';
 import '../../../utils/app_constant.dart';
-import '../../../utils/firebase_analytics.dart';
-import '../../../utils/share_preference_utils.dart';
 import '../../base/base_controller.dart';
 import '../../router/app_router.dart';
 
@@ -86,42 +82,18 @@ class PreviewImageController extends BaseController {
           "image_id": id,
         });
       } else {
-        bool isFavorite = await DatabaseHelper.instance.isFavorite(id ?? "");
-
         Uint8List? processImageList = await OpenCV.processImg(
           byteData: byteData ?? Uint8List(0),
           edgeLevel: AppConstant.defaultEdgeLv,
           noise: AppConstant.defaultNoise,
         );
 
-        if (isFavorite) {
-          Get.toNamed(AppRouter.drawScreen, arguments: {
-            "byte_data": processImageList,
-            "origin_byte_data": byteData,
-            "byte_data_resize": byteData ?? Uint8List(0),
-            "image_id": id,
-          });
-        } else {
-          int cnt =
-              PreferenceUtils.getInt(AppKeyPreference.keyCntUserAddImage) ?? 0;
-
-          Get.toNamed(AppRouter.drawScreen, arguments: {
-            "byte_data": processImageList,
-            "origin_byte_data": byteData,
-            "byte_data_resize": byteData ?? Uint8List(0),
-            "image_id": "User_$cnt",
-          });
-
-          DatabaseHelper.instance.insertFavoriteItem(
-            FavoriteItem(
-              id: "User_$cnt",
-              isFavorite: true,
-              image: byteData ?? Uint8List(0),
-            ),
-          );
-
-          PreferenceUtils.setInt(AppKeyPreference.keyCntUserAddImage, cnt + 1);
-        }
+        Get.toNamed(AppRouter.drawScreen, arguments: {
+          "byte_data": processImageList,
+          "origin_byte_data": byteData,
+          "byte_data_resize": byteData ?? Uint8List(0),
+          "image_id": id,
+        });
       }
     } else {
       AppLog.debug("PreviewImageController: imageUrl");
@@ -155,7 +127,6 @@ class PreviewImageController extends BaseController {
   }
 
   void onPressContinue() {
-    AppFirebaseAnalytics.instance.logEvent(name: "preview_image_continue");
     _onPressContinue.call();
   }
 

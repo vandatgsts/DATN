@@ -316,7 +316,7 @@ class AppController extends SuperController {
               AppLog.debug("Complete purchase", tag: "---IAP---");
 
               if (purchaseDetails.status == PurchaseStatus.purchased) {
-                AppFirebaseAnalytics.instance.logEvent(name: "sub_success");
+
               }
 
               if (purchaseDetails.status == PurchaseStatus.purchased) {

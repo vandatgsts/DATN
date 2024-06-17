@@ -40,7 +40,6 @@ class _PreviewPrintState extends State<PreviewPrint> {
   }
 
   void printImageFromByteData() async {
-    AppFirebaseAnalytics.instance.logEvent(name: "print_image");
 
     final doc = pw.Document();
 

@@ -39,10 +39,13 @@ CREATE TABLE favoriteItems (
 ''');
   }
 
-  Future<void> insertFavoriteItem(FavoriteItem item) async {
+  Future<String> insertFavoriteItem(FavoriteItem item) async {
     final db = await instance.database;
     await db.insert('favoriteItems', item.toMap());
+    return item.id;
   }
+
+
 
   Future<void> updateFavoriteItem(FavoriteItem item) async {
     final db = await instance.database;
@@ -65,11 +68,21 @@ CREATE TABLE favoriteItems (
 
   Future<List<FavoriteItem>> fetchFavoriteItems() async {
     final db = await instance.database;
-    final result = await db.query('favoriteItems');
+    final result = await db.query(
+      'favoriteItems',
+      where: 'isFavorite = ?',
+      whereArgs: [true],
+    );
 
     return result.map((json) => FavoriteItem.fromMap(json)).toList();
   }
 
+  Future<List<FavoriteItem>> fetchAllFavoriteItems() async {
+    final db = await instance.database;
+    final result = await db.query('favoriteItems');
+
+    return result.map((json) => FavoriteItem.fromMap(json)).toList();
+  }
   Future<bool> isFavorite(String id) async {
     final db = await instance.database;
     final maps = await db.query(

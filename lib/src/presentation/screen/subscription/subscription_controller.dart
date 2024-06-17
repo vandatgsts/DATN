@@ -104,7 +104,7 @@ class SubscriptionController extends BaseController {
   }
 
   void onPressYearly() {
-    AppFirebaseAnalytics.instance.logEvent(name: "sub_yearly");
+
     weekSelected.value = false;
     monthSelected.value = false;
     yearSelected.value = true;
@@ -112,7 +112,6 @@ class SubscriptionController extends BaseController {
   }
 
   void onPressMonthly() {
-    AppFirebaseAnalytics.instance.logEvent(name: "sub_monthly");
 
     weekSelected.value = false;
     monthSelected.value = true;
@@ -121,7 +120,7 @@ class SubscriptionController extends BaseController {
   }
 
   void onPressWeekly() {
-    AppFirebaseAnalytics.instance.logEvent(name: "sub_weekly");
+
 
     weekSelected.value = true;
     monthSelected.value = false;
@@ -138,7 +137,6 @@ class SubscriptionController extends BaseController {
     } else{
       subText = "year";
     }
-    AppFirebaseAnalytics.instance.logEvent(name: "sub_click");
     MetaSdk.logEvent(name: "sub_click_$subText");
     _appController.onPressPremiumByProduct(rxSelectedIdentifier.value);
   }
